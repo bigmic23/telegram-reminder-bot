@@ -1,9 +1,16 @@
-const express = require("express");
-const app = express();
-app.use(express.json());
-require("dotenv").config();
-const { Telegraf } = require("telegraf");
-const { initDB, getUserReminders } = require("./db");
+console.log("🔥 BOT FILE LOADED");
+
+console.log("ENV CHECK:", {
+  BOT_TOKEN: !!process.env.BOT_TOKEN,
+  DATABASE_URL: !!process.env.DATABASE_URL
+});
+
+const express = require("express"); const 
+app = express(); app.use(express.json()); 
+require("dotenv").config(); const { 
+Telegraf } = require("telegraf"); const { 
+initDB, getUserReminders } = 
+require("./db");
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
