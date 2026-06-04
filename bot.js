@@ -1,21 +1,14 @@
-console.log("BOT START TEST");
-
-require("dotenv").config();
+console.log("BOOT OK");
 
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Bot is alive");
-});
+const PORT = process.env.PORT;
 
-const PORT = process.env.PORT || 10000;
+app.get("/", (req, res) => {
+  res.send("Alive");
+});
 
 app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log("Server running on", PORT);
 });
-
-// KEEP PROCESS ALIVE
-setInterval(() => {
-  console.log("Bot heartbeat...");
-}, 10000);
