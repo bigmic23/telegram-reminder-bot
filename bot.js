@@ -1,9 +1,21 @@
-console.log("BOOT STARTED");
+console.log("BOT START TEST");
 
-console.log("ENV CHECK:", {
-  BOT_TOKEN: !!process.env.BOT_TOKEN,
-  DATABASE_URL: !!process.env.DATABASE_URL,
-  PORT: process.env.PORT
+require("dotenv").config();
+
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Bot is alive");
 });
 
-setInterval(() => {}, 1000);
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
+
+// KEEP PROCESS ALIVE
+setInterval(() => {
+  console.log("Bot heartbeat...");
+}, 10000);
