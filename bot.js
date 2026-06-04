@@ -1,4 +1,4 @@
-console.log("🔥 BOOT STARTED");
+console.log("BOOT STARTED");
 
 console.log("ENV CHECK:", {
   BOT_TOKEN: process.env.BOT_TOKEN,
@@ -6,8 +6,7 @@ console.log("ENV CHECK:", {
   PORT: process.env.PORT
 });
 
-throw new Error("FORCED STARTUP TEST - IF 
-YOU SEE THIS LOG, APP IS RUNNING");
+throw new Error("FORCED STARTUP TEST");
 
 /* ---------------- INIT DB 
 ---------------- */
