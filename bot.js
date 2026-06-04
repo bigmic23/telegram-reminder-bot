@@ -1,14 +1,16 @@
-console.log("BOT START TEST");
+console.log("🔥 BOOT STARTED");
 
-require("dotenv").config();
-const express = require("express");
-const { Telegraf } = require("telegraf");
-const { initDB, saveReminder } = require("./db");
+console.log("ENV CHECK:", {
+  BOT_TOKEN: process.env.BOT_TOKEN,
+  DATABASE_URL: process.env.DATABASE_URL,
+  PORT: process.env.PORT
+});
 
-const app = express();
-app.use(express.json());
+throw new Error("FORCED STARTUP TEST - IF 
+YOU SEE THIS LOG, APP IS RUNNING");
 
-/* ---------------- INIT DB ---------------- */
+/* ---------------- INIT DB 
+---------------- */
 
 (async () => {
   try {
