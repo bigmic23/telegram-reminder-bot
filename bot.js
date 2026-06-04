@@ -64,16 +64,16 @@ async function bootstrap() {
 
     app.use(bot.webhookCallback("/telegram"));
 
-    bot.telegram.setWebhook(`${WEBHOOK_URL}/telegram`);
+    await bot.telegram.setWebhook(`${WEBHOOK_URL}/telegram`);
 
     app.get("/", (req, res) => {
       res.send("Bot is alive");
     });
 
     const PORT = process.env.PORT || 3000; 
-    app.listen(PORT, () => 
-    console.log("Webhook server 
-    started\nRunning on Render");
+    app.listen(PORT, () =>
+  console.log("Webhook server 
+started\nRunning on Render") );
 
   } catch (err) {
     console.error("BOOT ERROR FULL:", 
