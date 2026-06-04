@@ -69,7 +69,8 @@ async function bootstrap() {
     running"));
 
   } catch (err) {
-    console.error("BOOT ERROR:", err);
+    console.error("BOOT ERROR FULL:", 
+err); console.error("STACK:", err?.stack);
     process.exit(1);
   }
 }
