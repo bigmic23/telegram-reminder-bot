@@ -3,13 +3,23 @@ console.log("BOT START TEST");
 require("dotenv").config();
 const express = require("express");
 const { Telegraf } = require("telegraf");
+const { initDB } = require("./db");
 
 const app = express();
 app.use(express.json());
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+(async () => {
+  try {
+    await initDB();
+    console.log("DB connected successfully");
+  } catch (err) {
+    console.error("DB INIT ERROR:", err);
+  }
+})();
 
-/* ---------------- TELEGRAM BOT ---------------- */
+/* ---------------- TELEGRAM BOT 
+---------------- */
 
 bot.start((ctx) => {
   ctx.reply("Bot is alive and connected.");
