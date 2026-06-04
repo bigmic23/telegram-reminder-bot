@@ -3,12 +3,13 @@ console.log("BOT START TEST");
 require("dotenv").config();
 const express = require("express");
 const { Telegraf } = require("telegraf");
-const { initDB } = require("./db");
+const { initDB, saveReminder } = require("./db");
 
 const app = express();
 app.use(express.json());
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+/* ---------------- INIT DB ---------------- */
+
 (async () => {
   try {
     await initDB();
@@ -18,8 +19,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
   }
 })();
 
-/* ---------------- TELEGRAM BOT 
----------------- */
+/* ---------------- TELEGRAM BOT ---------------- */
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start((ctx) => {
   ctx.reply("Bot is alive and connected.");
@@ -33,18 +35,15 @@ bot.command("set", async (ctx) => {
       return ctx.reply("Usage: /set your reminder message");
     }
 
-    const run_at = Date.now() + 60 * 1000; // temporary: 1 minute later
+    const run_at = Date.now() + 60 * 1000;
 
-    await ctx.reply(
-      `Reminder saved!\n\n📝 ${text}\n⏳ Will trigger in 1 minute (test mode)`
-    );
-
-    // TODO: DB save will be activated next step
-    console.log("NEW REMINDER:", {
-      chat_id: ctx.chat.id,
+    await saveReminder({
+      chat_id: String(ctx.chat.id),
       message: text,
       run_at
     });
+
+    ctx.reply(`Reminder saved!\n\n📝 ${text}\n⏳ Will trigger in 1 minute`);
 
   } catch (err) {
     console.error("SET COMMAND ERROR:", err);
@@ -66,7 +65,7 @@ app.get("/", (req, res) => {
   res.send("Bot is alive");
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
