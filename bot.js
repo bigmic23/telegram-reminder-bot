@@ -25,6 +25,33 @@ bot.start((ctx) => {
   ctx.reply("Bot is alive and connected.");
 });
 
+bot.command("set", async (ctx) => {
+  try {
+    const text = ctx.message.text.split(" ").slice(1).join(" ");
+
+    if (!text) {
+      return ctx.reply("Usage: /set your reminder message");
+    }
+
+    const run_at = Date.now() + 60 * 1000; // temporary: 1 minute later
+
+    await ctx.reply(
+      `Reminder saved!\n\n📝 ${text}\n⏳ Will trigger in 1 minute (test mode)`
+    );
+
+    // TODO: DB save will be activated next step
+    console.log("NEW REMINDER:", {
+      chat_id: ctx.chat.id,
+      message: text,
+      run_at
+    });
+
+  } catch (err) {
+    console.error("SET COMMAND ERROR:", err);
+    ctx.reply("Failed to save reminder");
+  }
+});
+
 bot.on("text", (ctx) => {
   ctx.reply("Received: " + ctx.message.text);
 });
