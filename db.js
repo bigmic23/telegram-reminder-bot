@@ -58,8 +58,6 @@ async function deleteReminder(id) {
 
 module.exports = {
   initDB,
-  addReminder,
-  getUserReminders,
-  getDueReminders,
-  deleteReminder
+  saveReminder,
+  getUserReminders
 };
