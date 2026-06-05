@@ -4,10 +4,13 @@ const express = require("express");
 const { Telegraf } = require("telegraf");
 const {
   initDB,
-  saveReminder
+  saveReminder,
+  getDueReminders,
+  deleteReminder
 } = require("./db");
 
-const { initDB, saveReminder } = require("./db");
+const { initDB, saveReminder } = 
+require("./db");
 
 const app = express();
 
