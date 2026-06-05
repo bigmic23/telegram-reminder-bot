@@ -1,7 +1,27 @@
-console.log("BOOT STARTED");
+require("dotenv").config();
 
 const express = require("express");
+const { Telegraf } = require("telegraf");
+
 const app = express();
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+
+bot.start((ctx) => {
+  ctx.reply("Bot is alive and connected.");
+});
+
+bot.on("text", (ctx) => {
+  ctx.reply("Received: " + ctx.message.text);
+});
+
+bot.telegram.getMe()
+  .then((info) => {
+    console.log("Telegram connected as:", info.username);
+  })
+  .catch((err) => {
+    console.error("Telegram error:", err);
+  });
 
 const PORT = process.env.PORT || 10000;
 
@@ -12,3 +32,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
 });
+
+bot.launch();
