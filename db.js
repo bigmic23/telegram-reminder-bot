@@ -49,6 +49,13 @@ async function getDueReminders(now) {
   return res.rows;
 }
 
+async function saveReminder({ chat_id, message, run_at }) {
+  return pool.query(
+    "INSERT INTO reminders (chat_id, message, run_at) VALUES ($1, $2, $3)",
+    [chat_id, message, run_at]
+  );
+}
+
 async function deleteReminder(id) {
   return pool.query(
     "DELETE FROM reminders WHERE id = $1",
