@@ -2,14 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const { Telegraf } = require("telegraf");
-<<<<<<< HEAD
 const {
   initDB,
   saveReminder
 } = require("./db");
-=======
+
 const { initDB, saveReminder } = require("./db");
->>>>>>> 0580d35 (fix reminder system)
 
 const app = express();
 
@@ -55,7 +53,6 @@ bot.command("set", async (ctx) => { try {
     const text = ctx.message.text.split(" 
     ").slice(1).join(" ");
 
->>>>>>> 0580d35 (fix reminder system)
     if (!text) {
       return ctx.reply("Usage: /set buy milk");
     }
@@ -77,10 +74,6 @@ bot.command("set", async (ctx) => { try {
     ctx.reply("Failed to save reminder ❌");
   }
 });
-<<<<<<< HEAD
-=======
-
->>>>>>> 0580d35 (fix reminder system)
 bot.on("text", (ctx) => { 
   ctx.reply("Received: " + 
   ctx.message.text);
