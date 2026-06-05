@@ -2,7 +2,10 @@ require("dotenv").config();
 
 const express = require("express");
 const { Telegraf } = require("telegraf");
-const { initDB } = require("./db");
+const {
+  initDB,
+  saveReminder
+} = require("./db");
 
 const app = express();
 
