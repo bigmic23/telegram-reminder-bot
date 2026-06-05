@@ -9,9 +9,6 @@ const {
   deleteReminder
 } = require("./db");
 
-const { initDB, saveReminder } = 
-require("./db");
-
 const app = express();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -23,7 +20,6 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
     console.error("DB INIT ERROR:", err);
   }
 })();
-const { getDueReminders, deleteReminder } = require("./db");
 
 async function checkReminders() {
   try {
