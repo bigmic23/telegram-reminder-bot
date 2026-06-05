@@ -2,10 +2,14 @@ require("dotenv").config();
 
 const express = require("express");
 const { Telegraf } = require("telegraf");
+<<<<<<< HEAD
 const {
   initDB,
   saveReminder
 } = require("./db");
+=======
+const { initDB, saveReminder } = require("./db");
+>>>>>>> 0580d35 (fix reminder system)
 
 const app = express();
 
@@ -18,6 +22,27 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
     console.error("DB INIT ERROR:", err);
   }
 })();
+const { getDueReminders, deleteReminder } = require("./db");
+
+async function checkReminders() {
+  try {
+    const now = Date.now();
+    const reminders = await getDueReminders(now);
+
+    for (const r of reminders) {
+      await bot.telegram.sendMessage(
+        r.chat_id,
+        `⏰ Reminder: ${r.message}`
+      );
+
+      await deleteReminder(r.id);
+    }
+  } catch (err) {
+    console.error("Worker error:", err);
+  }
+}
+
+setInterval(checkReminders, 5000);
 
 bot.start((ctx) => {
   ctx.reply("Bot is alive and connected.");
@@ -26,6 +51,11 @@ bot.command("set", async (ctx) => {
   try {
     const text = ctx.message.text.split(" ").slice(1).join(" ");
 
+bot.command("set", async (ctx) => { try { 
+    const text = ctx.message.text.split(" 
+    ").slice(1).join(" ");
+
+>>>>>>> 0580d35 (fix reminder system)
     if (!text) {
       return ctx.reply("Usage: /set buy milk");
     }
@@ -47,6 +77,10 @@ bot.command("set", async (ctx) => {
     ctx.reply("Failed to save reminder ❌");
   }
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0580d35 (fix reminder system)
 bot.on("text", (ctx) => { 
   ctx.reply("Received: " + 
   ctx.message.text);

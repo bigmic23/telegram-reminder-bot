@@ -1,45 +1,53 @@
 require("dotenv").config();
-
 const { Pool } = require("pg");
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL missing");
-}
-
-const pool = new Pool({ connectionString: 
-  process.env.DATABASE_URL, ssl: { 
-  rejectUnauthorized: false }
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-module.exports = pool;
+/* ---------------- INIT DB ---------------- */
 
 async function initDB() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS reminders (
-      id SERIAL PRIMARY KEY,
-      chat_id TEXT,
-      message TEXT,
-      run_at BIGINT
-    )
-  `);
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS reminders (
+        id SERIAL PRIMARY KEY,
+        chat_id TEXT NOT NULL,
+        message TEXT NOT NULL,
+        run_at BIGINT NOT NULL
+      )
+    `);
 
-  console.log("DB connected successfully");
+    console.log("DB initialized successfully");
+  } catch (err) {
+    console.error("DB INIT FAILED:", err);
+    throw err;
+  }
 }
 
-async function addReminder(chatId, message, runAt) {
+/* ---------------- SAVE REMINDER ---------------- */
+
+async function saveReminder({ chat_id, message, run_at }) {
   return pool.query(
-    "INSERT INTO reminders (chat_id, message, run_at) VALUES ($1,$2,$3)",
-    [chatId, message, runAt]
+    "INSERT INTO reminders (chat_id, message, run_at) VALUES ($1, $2, $3)",
+    [chat_id, message, run_at]
   );
 }
 
-async function getUserReminders(chatId) {
+/* ---------------- GET USER REMINDERS ---------------- */
+
+async function getUserReminders(chat_id) {
   const res = await pool.query(
     "SELECT * FROM reminders WHERE chat_id = $1",
-    [chatId]
+    [chat_id]
   );
   return res.rows;
 }
+
+/* ---------------- GET DUE REMINDERS ---------------- */
 
 async function getDueReminders(now) {
   const res = await pool.query(
@@ -49,12 +57,7 @@ async function getDueReminders(now) {
   return res.rows;
 }
 
-async function saveReminder({ chat_id, message, run_at }) {
-  return pool.query(
-    "INSERT INTO reminders (chat_id, message, run_at) VALUES ($1, $2, $3)",
-    [chat_id, message, run_at]
-  );
-}
+/* ---------------- DELETE REMINDER ---------------- */
 
 async function deleteReminder(id) {
   return pool.query(
@@ -63,8 +66,12 @@ async function deleteReminder(id) {
   );
 }
 
+/* ---------------- EXPORTS ---------------- */
+
 module.exports = {
   initDB,
   saveReminder,
-  getUserReminders
+  getUserReminders,
+  getDueReminders,
+  deleteReminder
 };
