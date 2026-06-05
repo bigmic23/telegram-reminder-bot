@@ -1,14 +1,14 @@
-console.log("BOOT OK");
+console.log("BOOT STARTED");
 
 const express = require("express");
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 10000;
 
 app.get("/", (req, res) => {
-  res.send("Alive");
+  res.send("Bot is alive");
 });
 
 app.listen(PORT, () => {
-  console.log("Server running on", PORT);
+  console.log("Server running on port", PORT);
 });
