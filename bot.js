@@ -16,8 +16,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
   }
 })();
 
-bot.start((ctx) => { ctx.reply("Bot is 
-  alive and connected.");
+bot.start((ctx) => {
+  ctx.reply("Bot is alive and connected.");
 });
 
 bot.on("text", (ctx) => { 
@@ -35,8 +35,7 @@ bot.telegram.getMe()
 
 const PORT = process.env.PORT || 10000;
 
-app.get("/", (req, res) => {
-  res.send("Bot is alive");
+app.get("/", (req, res) => { res.send("Bot is alive");
 });
 
 app.listen(PORT, () => {
